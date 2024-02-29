@@ -63,6 +63,8 @@ Once that is done we can use ```npm install``` to install the packages which wil
 
 Please copy the below lines into the cucumber.js file located in the root directory.
 
+Now we just need to run ```npx playwright install``` which will install our playwright dependency. 
+
 ```js
 const config = {
     paths: ['src/tests/feature_files/*.feature'],

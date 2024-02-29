@@ -176,6 +176,7 @@ Now for the then step, the final step in this first test, we're confirming that 
 ```ts
 Then('the user should be logged into the site', {timeout: 2 * 5000}, async function () {
     await expect(loginPage.accountName).toBeVisible();
+    await browser.close();
 });
 ```
 
@@ -297,6 +298,7 @@ Finally we want to complete the user journey by logging out.
 ```ts
 When('the user logs out', {timeout: 2 * 5000}, async function () {
    await globalSQAPage.logoutButton.click()
+   await browser.close();
 });
 ```
 
@@ -433,6 +435,7 @@ And finally, we can reset by going back to the homepage. This will be in the use
 ```ts
 When ('go back to products', {timeout: 2 * 5000}, async function () {
     await saucePage.backToProducts.click();
+    await browser.close();
 });
 ```
 

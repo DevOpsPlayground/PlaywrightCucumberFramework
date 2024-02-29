@@ -1,2 +1,2 @@
 Feature: Simple site walkthrough
-  A user wishes to log into the site, compare and then buy some items 
+  A user wishes to log into the site, make a transaction and buy a product

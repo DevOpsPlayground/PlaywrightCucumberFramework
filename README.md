@@ -7,17 +7,14 @@ Many modern applications need to be thoroughly tested before they are released, 
 
 This template today will introduce you to the integration between Playwright, Cucumber and Typescript. 
 
-It will also teach the basics of writing a suite of tests in the page object model and we will be showing off some best practices when writing automation tests. 
-
-In this example I have used the free practice site, called https://magento.softwaretestingboard.com/ and another site called https://www.saucedemo.com/
+In this example I have used some free practice sites, called https://magento.softwaretestingboard.com/ and another site called https://www.globalsqa.com/angularJs-protractor/BankingProject/ and a third from sauceLabs called https://www.saucedemo.com/
 
 ---
 ## Outcomes:
 
 - Understand the structure of a Playwright, Cucumber and Typescript project.
-- Understand how to test websites with the page object model.
-- Understand how to format and write automation tests.
-- Understand how to write website tests with Typescript. 
+- Understand how to write tests with the page object model.
+- Understand how to format and write automation tests utilising Playwright and Cucumber in Typescript.
 
 ---
 ## Pre-requisites
@@ -27,14 +24,14 @@ Knowledge of basic Typescript/Javascript programming
 ---
 ## Support:
 
-If you have any questions about the topics in this pathway or need a helping hand with a concept or completing the validation task, reach out to us on the playground slack.
+If you have any questions about the topics in this pathway or need a helping hand with completing any tasks, please reach out to us on the playground slack.
 
 ---
 ## Framework Setup
 
 We'll want to add Cucumber, Playwright and Typescript dependencies first. We'll do this via the package.json file. 
 
-To do this you can copy the lines below, but if we were doing this from the beginning we would have to go onto the download the playwright framework and install cucumber via the console. But in this framework we've given you the pre-built file and values. 
+To do this you can copy the lines below from this readme, but if we were doing this from the beginning we would have to go onto the download the playwright framework and install cucumber via the console. But in this framework we've given you the pre-built file and values. 
 
 First we'll fill out the package.json file.
 
@@ -95,36 +92,40 @@ To start creating automation requests there are three layers we'll be working wi
 
 The first is the page level, here we'll list our IDs in one place that can be called upon, which will allow us to change them in one place and not have to repeat anything.
 
-These are in the pages folder and are called the checkoutPage.ts, clothingPage.ts and loginsPage.ts. The actual requests themselves will occur in the step definitions and the cucumber instructions will occur in the feature files. 
+These are in the pages folder and are called the loginPage.ts, globalSQAPage.ts and saucePage.ts. The actual requests themselves will occur in the step definitions and the cucumber instructions will occur in the feature files. 
 
-We'll be starting with some basic patterns for automating user behaviour. 
+Then there is are the step definitions, these will define the steps outlined inside our scenarios in the userJourney.feature file.
+
+Finally there is the feature file, utilising Cucumber to create scenarios which are the highest level of our tests. 
 
 Cucumber is a software framework that supports behavior-driven development. Central to the Cucumber BDD approach is its ordinary language parser called Gherkin. It allows expected software behaviors to be specified in a logical language that customers can understand.
 
-In many cases, these scenarios require mock data to exercise a feature, which can be cumbersome to inject — especially with complex or multiple entries. We can mock this data using data tables to pass data from the feature file into the step definition and here we'll see how to do this. Please add the following code to the feature file:
+In many cases, these scenarios require mock data to exercise a feature, which can be cumbersome to inject — especially with complex or multiple entries. With Cucumber we can mock this data using data tables to pass data from the feature file into the step definitions and from there inject it into the application, in our first user journey i'll show you how to do this. 
 
 ---
 
 ### Creating our first user journey:
 
-First we'll add the feature file, please make sure you add your own values for email, first name and last name before running the test, each email needs to be unique to make an account with this site. 
+First we'll add the feature file, please make sure you add your own values for email, first name and last name before running the test, each email needs to be unique to make an account with this site. Please add this to the userJourney.feature file. 
 
 ```gherkin
   Scenario Outline: Log into the site
-    Given the magneto homepage is displayed
+    Given the magento homepage is displayed
     When the user enters create an account login details
       | firstName   | lastName    | email       | password | confirmPassword |
       | <YourValue> | <YourValue> | <YourValue> | P@ssword | P@ssword        |
     Then the user should be logged into the site
 ```
 
-Then we'll run with ```npx cucumber-js```. You can see the application will generate steps for you, which is a fantastic feature of cucumber. Particularly since variations in the feature file step and the step definition can cause errors. 
+You'll see that we are putting our password in plaintext in this cucumber file. Since this file can be accesssed it's not recommended to put passwords here. As such there a few strategies for dealing with this, first is to add the sensitive values as environment variables, or utilising config files, you can also encrypt the values and pass them in as encrypted. 
+
+Then we'll run with ```npx cucumber-js```. You can see the application will generate steps for you, which is a fantastic feature of cucumber. Particularly since variations between the feature file step and the step definition can cause errors. 
 
 After we've run we can add the step definition for our first feature file line inside the userJourney.steps.ts file.
 
 ```ts
-Given('the magneto homepage is displayed', async function () {
-    browser = await chromium.launch({ headless: false })
+Given('the magento homepage is displayed', async function () {
+    browser = await chromium.launch({ headless: true })
     const context = await browser.newContext()
     page = await context.newPage()
 
@@ -209,7 +210,7 @@ export default class LoginPage {
         this.passwordCreate = page.locator('#password')
         this.passwordConfirm = page.locator('#password-confirmation')
         this.createButton = page.getByRole('button', { name: /Create an Account/i })
-        this.accountName = page.getByText('<Your Value>')
+        this.accountName = page.getByText('<Your Value>')               // Please edit here
 
         this.signInLink = page.locator('xpath=/html/body/div[2]/header/div[1]/div/ul/li[2]/a')
         this.emailLogin = page.locator('#email')
@@ -234,10 +235,10 @@ Then we can run again in the terminal using ```npx cucumber-js```. We should hav
 
 ### Creating our second user journey:
 
-In our second user journey we'll be starting a fresh test, this means we'll need a new window to open our browser in. We can do this easily with the same step definition we used before. We'll also have a sign in step using a dataTable and then selecting an item for the wishlist and then viewing that wishlist. 
+In our second user journey we'll be starting a fresh test, this means we'll need a new window to open our browser in. We can do this easily with the same step definition we used before. We'll also have a sign in step inputting data using a string, then verifying the result of our transaction.
 
 ```gherkin
-  Scenario: Customer wishlist
+  Scenario: Customer transaction
     Given the globalSQA homepage is displayed
     And the user signs in
     When the user makes a deposit of "12.00"
@@ -248,12 +249,11 @@ Now we can add in our Given step definition, this is because we're using a fresh
 
 ```ts
 Given('the globalSQA homepage is displayed', async function () {
-    browser = await chromium.launch({ headless: false })
+    browser = await chromium.launch({ headless: true })
     const context = await browser.newContext()
     page = await context.newPage()
 
     await page.goto('https://www.globalsqa.com/angularJs-protractor/BankingProject/#/login')
-    await page.waitForTimeout(2000);
 });
 ```
 
@@ -278,7 +278,6 @@ When('the user makes a deposit of {string}', async function (String) {
     await globalSQAPage.depositInput.click()
     await globalSQAPage.depositInput.fill(String)
     await globalSQAPage.depositSecondaryButton.click()
-    await page.waitForTimeout(2000);
 });
 ```
 
@@ -335,7 +334,7 @@ export default class GlobalSQAPage {
   }
 ```
 
-Then we can run this once more with ```npx cucumber-js``` and see the result. It should pass and we can see the manual process we went through before being fully automated. 
+Then we can run this once more with ```npx cucumber-js``` and see the result. It should pass and we can see the manual process we went through before being fully automated. Also for this run, we can comment out our first scenario in our userJourney.feature, since that needs a new email each time we run it. 
 
 ---
 ### Our third User Journey
@@ -360,7 +359,7 @@ As you can see from the above, we'll be using a different site to add an item to
 
 ```ts
 Given('the homepage sauce demo is displayed', async function () {
-    browser = await chromium.launch({ headless: false })
+    browser = await chromium.launch({ headless: true })
     const context = await browser.newContext()
     page = await context.newPage()
 
@@ -491,4 +490,5 @@ export default class LoginPage {
 
 After this we can run the tests once again with ```npx cucumber-js``` and see the result. We'll see they should complete very quickly and without errors. 
 
-And that's everything, thank you. 
+And that's everything for this template, I hope it's been useful. Thank you for your time. 
+

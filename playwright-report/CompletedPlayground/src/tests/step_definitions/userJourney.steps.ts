@@ -10,7 +10,7 @@ let globalSQAPage: GlobalSQAPage
 let loginPage: LoginPage
 let saucePage: SaucePage
 
-Given('the magneto homepage is displayed', async function () {
+Given('the magneto homepage is displayed', {timeout: 2 * 5000}, async function () {
     browser = await chromium.launch({ headless: true })
     const context = await browser.newContext()
     page = await context.newPage()
@@ -18,7 +18,7 @@ Given('the magneto homepage is displayed', async function () {
     await page.goto('https://magento.softwaretestingboard.com/')
 });
 
-When('the user enters create an account login details', async function (dataTable) {
+When('the user enters create an account login details', {timeout: 2 * 5000}, async function (dataTable) {
     loginPage = new LoginPage(page)
     
     const tableHash = dataTable.rows();
@@ -46,11 +46,11 @@ When('the user enters create an account login details', async function (dataTabl
 
 });
 
-Then('the user should be logged into the site', async function () {
+Then('the user should be logged into the site', {timeout: 2 * 5000}, async function () {
     await expect(loginPage.accountName).toBeVisible();
 });
 
-Given('the globalSQA homepage is displayed', async function () {
+Given('the globalSQA homepage is displayed', {timeout: 2 * 5000}, async function () {
     browser = await chromium.launch({ headless: true })
     const context = await browser.newContext()
     page = await context.newPage()
@@ -58,7 +58,7 @@ Given('the globalSQA homepage is displayed', async function () {
     await page.goto('https://www.globalsqa.com/angularJs-protractor/BankingProject/#/login')
 });
 
-When('the user signs in', async function () {
+When('the user signs in', {timeout: 2 * 5000}, async function () {
     globalSQAPage = new GlobalSQAPage(page)
 
     await globalSQAPage.loginButton.click()
@@ -67,23 +67,23 @@ When('the user signs in', async function () {
     await globalSQAPage.loginCharacterButton.click()
 });
 
-When('the user makes a deposit of {string}', async function (String) {
+When('the user makes a deposit of {string}', {timeout: 2 * 5000}, async function (String) {
     await globalSQAPage.depositPrimaryButton.click()
     await globalSQAPage.depositInput.click()
     await globalSQAPage.depositInput.fill(String)
     await globalSQAPage.depositSecondaryButton.click()
 });
 
-Then('the user should see their transaction', async function () {
+Then('the user should see their transaction', {timeout: 2 * 5000}, async function () {
     await globalSQAPage.transactionButton.click()
     await globalSQAPage.getTransactionValue.click() 
 });
 
-When('the user logs out', async function () {
+When('the user logs out', {timeout: 2 * 5000}, async function () {
     await globalSQAPage.logoutButton.click()
  });
 
- Given('the homepage sauce demo is displayed', async function () {
+ Given('the homepage sauce demo is displayed', {timeout: 2 * 5000}, async function () {
     browser = await chromium.launch({ headless: true })
     const context = await browser.newContext()
     page = await context.newPage()
@@ -91,7 +91,7 @@ When('the user logs out', async function () {
     await page.goto('https://www.saucedemo.com/')
 });
 
-When ('the user signs into sauceDemo', async function (dataTable) {
+When ('the user signs into sauceDemo', {timeout: 2 * 5000}, async function (dataTable) {
     saucePage = new SaucePage(page)
     const tableHash = dataTable.rows()
     for (const hash of tableHash) {
@@ -106,13 +106,13 @@ When ('the user signs into sauceDemo', async function (dataTable) {
     }
 });
 
-When ('the user adds an item to cart', async function () {
+When ('the user adds an item to cart', {timeout: 2 * 5000}, async function () {
     await saucePage.addToCartBag.click();
     await saucePage.shoppingCart.click();
     await saucePage.checkout.click();
 });
 
-When ('the user checks out with their information', async function (dataTable) {
+When ('the user checks out with their information', {timeout: 2 * 5000}, async function (dataTable) {
     const tableHash = dataTable.rows()
     for (const hash of tableHash) {
 
@@ -130,11 +130,11 @@ When ('the user checks out with their information', async function (dataTable) {
     }
 });
 
-Then('the user has an order confirmation', async function () {
+Then('the user has an order confirmation', {timeout: 2 * 5000}, async function () {
     await expect(saucePage.orderConfirmation).toBeVisible();
 });
 
-When ('go back to products', async function () {
+When ('go back to products', {timeout: 2 * 5000}, async function () {
     await saucePage.backToProducts.click();
 });
 

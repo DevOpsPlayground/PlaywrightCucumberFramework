@@ -63,6 +63,8 @@ Once that is done we can use ```npm install``` to install the packages which wil
 
 Please copy the below lines into the cucumber.js file located in the root directory.
 
+Now we just need to run ```npx playwright install``` which will install our playwright dependency. 
+
 ```js
 const config = {
     paths: ['src/tests/feature_files/*.feature'],
@@ -124,7 +126,7 @@ Then we'll run with ```npx cucumber-js```. You can see the application will gene
 After we've run we can add the step definition for our first feature file line inside the userJourney.steps.ts file.
 
 ```ts
-Given('the magento homepage is displayed', async function () {
+Given('the magento homepage is displayed', {timeout: 2 * 5000}, async function () {
     browser = await chromium.launch({ headless: true })
     const context = await browser.newContext()
     page = await context.newPage()
@@ -138,7 +140,7 @@ So the above is generating a new browser window and then is loading up the first
 Now we can do the same for the when step, which is the second line in our feature file. This will once again be in the userJourney.steps.ts file. 
 
 ```ts
-When('the user enters create an account login details', async function (dataTable) {
+When('the user enters create an account login details', {timeout: 2 * 5000}, async function (dataTable) {
     loginPage = new LoginPage(page)
     
     const tableHash = dataTable.rows();
@@ -172,7 +174,7 @@ In the above code we are filling out the create account form, first we're clicki
 Now for the then step, the final step in this first test, we're confirming that the user from our table is logged into the application, we'll do this by getting their name by the text displayed on the page. We can do this by text since the name is unique.  This will be in the userJourney.ts file.
 
 ```ts
-Then('the user should be logged into the site', async function () {
+Then('the user should be logged into the site', {timeout: 2 * 5000}, async function () {
     await expect(loginPage.accountName).toBeVisible();
 });
 ```
@@ -248,7 +250,7 @@ In our second user journey we'll be starting a fresh test, this means we'll need
 Now we can add in our Given step definition, this is because we're using a fresh browser and we want to set the new context. Notice we're also using a wait to give the browser some time to load. 
 
 ```ts
-Given('the globalSQA homepage is displayed', async function () {
+Given('the globalSQA homepage is displayed', {timeout: 2 * 5000}, async function () {
     browser = await chromium.launch({ headless: true })
     const context = await browser.newContext()
     page = await context.newPage()
@@ -260,7 +262,7 @@ Given('the globalSQA homepage is displayed', async function () {
 Once this is done we'll need to define the feature file with the creation of steps. Notice for the step definition we're using another When step, in the Gherkin syntax the And and When are interchangeable, but in step definitions there is no And. This will be in the userJourney.ts file.
 
 ```ts
-When('the user signs in', async function () {
+When('the user signs in', {timeout: 2 * 5000}, async function () {
     globalSQAPage = new GlobalSQAPage(page)
 
     await globalSQAPage.loginButton.click()
@@ -273,7 +275,7 @@ When('the user signs in', async function () {
 Next we can add the selection of an item for our wishlist, filling in the next line in our feature file. This will be in the userJourney.ts file.
 
 ```ts
-When('the user makes a deposit of {string}', async function (String) {
+When('the user makes a deposit of {string}', {timeout: 2 * 5000}, async function (String) {
     await globalSQAPage.depositPrimaryButton.click()
     await globalSQAPage.depositInput.click()
     await globalSQAPage.depositInput.fill(String)
@@ -284,7 +286,7 @@ When('the user makes a deposit of {string}', async function (String) {
 Finally we can add our then step, which will confirm that we have made a transaction. This will be in the userJourney.ts file.
 
 ```ts
-Then('the user should see their transaction', async function () {
+Then('the user should see their transaction', {timeout: 2 * 5000}, async function () {
     await globalSQAPage.transactionButton.click()
     await globalSQAPage.getTransactionValue.click() 
 });
@@ -293,7 +295,7 @@ Then('the user should see their transaction', async function () {
 Finally we want to complete the user journey by logging out. 
 
 ```ts
-When('the user logs out', async function () {
+When('the user logs out', {timeout: 2 * 5000}, async function () {
    await globalSQAPage.logoutButton.click()
 });
 ```
@@ -358,7 +360,7 @@ Once again, Cucumber is a Behavioral Driven Development (BDD) framework that all
 As you can see from the above, we'll be using a different site to add an item to the cart and then checkout. In the given step below we're doing something very similar to before, but this time we're going to a different site. This will be in the userJourney.ts file.
 
 ```ts
-Given('the homepage sauce demo is displayed', async function () {
+Given('the homepage sauce demo is displayed', {timeout: 2 * 5000}, async function () {
     browser = await chromium.launch({ headless: true })
     const context = await browser.newContext()
     page = await context.newPage()
@@ -370,7 +372,7 @@ Given('the homepage sauce demo is displayed', async function () {
 Next we'll fill in the And step, notice in the step definition we're once again using When which has no difference to And in step definitions. Notice as well that we're utilising a for loop going through the table and injecting our table data into the application. This will be in the userJourney.ts file.
 
 ```ts
-When ('the user signs into sauceDemo', async function (dataTable) {
+When ('the user signs into sauceDemo', {timeout: 2 * 5000}, async function (dataTable) {
     saucePage = new SaucePage(page)
     const tableHash = dataTable.rows()
     for (const hash of tableHash) {
@@ -389,7 +391,7 @@ When ('the user signs into sauceDemo', async function (dataTable) {
 And following on from this we can add our When step in the userJourney.ts file.
 
 ```ts
-When ('the user adds an item to cart', async function () {
+When ('the user adds an item to cart', {timeout: 2 * 5000}, async function () {
     await saucePage.addToCartBag.click();
     await saucePage.shoppingCart.click();
     await saucePage.checkout.click();
@@ -399,7 +401,7 @@ When ('the user adds an item to cart', async function () {
 And following this we can input our shipping details, again we'll use a dataTable to inject our information into the website. And again this will be in the userJourney.ts file.
 
 ```ts
-When ('the user checks out with their information', async function (dataTable) {
+When ('the user checks out with their information', {timeout: 2 * 5000}, async function (dataTable) {
     const tableHash = dataTable.rows()
     for (const hash of tableHash) {
 
@@ -421,7 +423,7 @@ When ('the user checks out with their information', async function (dataTable) {
 Our second to last step definition will be to confirm our order by asserting that we have an order confirmation on the page. This will be in the userJourney.ts file.
 
 ```ts
-Then('the user has an order confirmation', async function () {
+Then('the user has an order confirmation', {timeout: 2 * 5000}, async function () {
     await expect(saucePage.orderConfirmation).toBeVisible();
 });
 ```
@@ -429,7 +431,7 @@ Then('the user has an order confirmation', async function () {
 And finally, we can reset by going back to the homepage. This will be in the userJourney.ts file.
 
 ```ts
-When ('go back to products', async function () {
+When ('go back to products', {timeout: 2 * 5000}, async function () {
     await saucePage.backToProducts.click();
 });
 ```

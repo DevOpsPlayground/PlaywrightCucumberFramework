@@ -1,0 +1,275 @@
+[
+  {
+    "description": "  A user wishes to log into the site, compare and then buy some items",
+    "elements": [
+      {
+        "description": "",
+        "id": "simple-site-walkthrough;log-into-the-site",
+        "keyword": "Scenario Outline",
+        "line": 4,
+        "name": "Log into the site",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 5,
+            "name": "the magneto homepage is displayed",
+            "match": {
+              "location": "src/tests/step_definitions/userJourney.steps.ts:13"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 2552302795
+            }
+          },
+          {
+            "arguments": [
+              {
+                "rows": [
+                  {
+                    "cells": [
+                      "firstName",
+                      "lastName",
+                      "email",
+                      "password",
+                      "confirmPassword"
+                    ]
+                  },
+                  {
+                    "cells": [
+                      "Funny",
+                      "Panda",
+                      "FunnyPanda@test.com",
+                      "P@ssword",
+                      "P@ssword"
+                    ]
+                  }
+                ]
+              }
+            ],
+            "keyword": "When ",
+            "line": 6,
+            "name": "the user enters create an account login details",
+            "match": {
+              "location": "src/tests/step_definitions/userJourney.steps.ts:21"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 3301336464
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 9,
+            "name": "the user should be logged into the site",
+            "match": {
+              "location": "src/tests/step_definitions/userJourney.steps.ts:49"
+            },
+            "result": {
+              "status": "failed",
+              "duration": 5009485244,
+              "error_message": "Error: function timed out, ensure the promise resolves within 5000 milliseconds\n    at Timeout.<anonymous> (/Users/mattsellman2/Documents/Playground/FebruaryPlayground/PlaywrightPlayground copy/node_modules/@cucumber/cucumber/src/time.ts:52:14)\n    at listOnTimeout (node:internal/timers:573:17)\n    at processTimers (node:internal/timers:514:7)"
+            }
+          }
+        ],
+        "tags": [],
+        "type": "scenario"
+      },
+      {
+        "description": "",
+        "id": "simple-site-walkthrough;make-a-transaction",
+        "keyword": "Scenario",
+        "line": 11,
+        "name": "Make a transaction",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 12,
+            "name": "the globalSQA homepage is displayed",
+            "match": {
+              "location": "src/tests/step_definitions/userJourney.steps.ts:53"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 4024229488
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 13,
+            "name": "the user signs in",
+            "match": {
+              "location": "src/tests/step_definitions/userJourney.steps.ts:62"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 1521936367
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 14,
+            "name": "the user makes a deposit of \"12.00\"",
+            "match": {
+              "location": "src/tests/step_definitions/userJourney.steps.ts:71"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 4768303037
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 15,
+            "name": "the user should see their transaction",
+            "match": {
+              "location": "src/tests/step_definitions/userJourney.steps.ts:79"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 89229405
+            }
+          }
+        ],
+        "tags": [],
+        "type": "scenario"
+      },
+      {
+        "description": "",
+        "id": "simple-site-walkthrough;customer-checkout",
+        "keyword": "Scenario Outline",
+        "line": 17,
+        "name": "Customer checkout",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 18,
+            "name": "the homepage sauce demo is displayed",
+            "match": {
+              "location": "src/tests/step_definitions/userJourney.steps.ts:88"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 1192224104
+            }
+          },
+          {
+            "arguments": [
+              {
+                "rows": [
+                  {
+                    "cells": [
+                      "username",
+                      "password"
+                    ]
+                  },
+                  {
+                    "cells": [
+                      "standard_user",
+                      "secret_sauce"
+                    ]
+                  }
+                ]
+              }
+            ],
+            "keyword": "And ",
+            "line": 19,
+            "name": "the user signs into sauceDemo",
+            "match": {
+              "location": "src/tests/step_definitions/userJourney.steps.ts:96"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 230248410
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 22,
+            "name": "the user adds an item to cart",
+            "match": {
+              "location": "src/tests/step_definitions/userJourney.steps.ts:111"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 203848659
+            }
+          },
+          {
+            "arguments": [
+              {
+                "rows": [
+                  {
+                    "cells": [
+                      "firstName",
+                      "lastName",
+                      "zip"
+                    ]
+                  },
+                  {
+                    "cells": [
+                      "Jim",
+                      "Tim",
+                      "Se1"
+                    ]
+                  }
+                ]
+              }
+            ],
+            "keyword": "And ",
+            "line": 23,
+            "name": "the user checks out with their information",
+            "match": {
+              "location": "src/tests/step_definitions/userJourney.steps.ts:117"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 268320503
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 26,
+            "name": "the user has an order confirmation",
+            "match": {
+              "location": "src/tests/step_definitions/userJourney.steps.ts:135"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 5512501
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 27,
+            "name": "go back to products",
+            "match": {
+              "location": "src/tests/step_definitions/userJourney.steps.ts:139"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 65380957
+            }
+          }
+        ],
+        "tags": [],
+        "type": "scenario"
+      }
+    ],
+    "id": "simple-site-walkthrough",
+    "line": 1,
+    "keyword": "Feature",
+    "name": "Simple site walkthrough",
+    "tags": [],
+    "uri": "src/tests/feature_files/userJourney.feature"
+  }
+]
